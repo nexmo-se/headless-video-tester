@@ -15,6 +15,7 @@ const openBrowser = async (tester) => {
       '--allow-http-screen-capture',
       '--enable-usermedia-screen-capturing',
       '--allow-file-access-from-files',
+      '--use-fake-device-for-media-stream',
       '--use-fake-ui-for-media-stream',
       `--use-file-for-fake-video-capture=${sampleVideoPath}`,
       '--autoplay-policy=no-user-gesture-required',
