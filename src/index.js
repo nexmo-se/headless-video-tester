@@ -148,6 +148,10 @@ const onSocketError = (tabId, error) => {
   console.error(`Error in Browser: ${tabId}`);
   console.error(error);
 }
+const onSocketLog = (tabId, event) => {
+  console.log(`Log in Browser: ${tabId}`);
+  console.log(event.message || "null log message");
+}
 
 
 const createSocketServer = (httpServer) => {
@@ -173,6 +177,9 @@ const createSocketServer = (httpServer) => {
     });
     socket.on('socketError', (event) => {
       onSocketError(tabId, event);
+    });
+    socket.on('socketLog', (event) => {
+      onSocketLog(tabId, event);
     });
   });
 };

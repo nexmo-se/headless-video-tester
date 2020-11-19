@@ -22,6 +22,13 @@ const reportError = (error) => {
   }
 }
 
+const reportLog = (message) => {
+  console.log(message);
+  if (socket != null) {
+    socket.emit('socketLog', { message });
+  }
+}
+
 const getParameters = () => {
   const searchString = window.location.search || '?';
   const query = searchString.slice(1);
@@ -85,7 +92,7 @@ const getCredentials = () => {
 
 const initializeSession = () => {
   otSession = OT.initSession(credentials.apiKey, credentials.sessionId);
-  console.log('Session created');
+  reportLog('Session created');
 };
 
 const connectSession = () => new Promise((resolve, reject) => {
@@ -95,7 +102,7 @@ const connectSession = () => new Promise((resolve, reject) => {
       return;
     }
 
-    console.log('Session connected');
+    reportLog('Session connected');
     resolve();
   });
 });
@@ -104,22 +111,22 @@ const startCameraPublisher = async (id, publishAudio, publishVideo) => {
   try {
     const publisher = OT.initPublisher('container', { publishAudio, publishVideo, name: id }, (error) => {
       if (error) {
-        console.error(error);
+        reportLog(error);
         return;
       }
 
       otSession.publish(publisher, (error2) => {
         if (error2) {
-          console.error(error2);
+          reportLog(error2);
           return;
         }
 
-        console.log(`Publisher '${id}' published`);
+        reportLog(`Publisher '${id}' published`);
       });
     });
 
     publishers[id] = publisher;
-    console.log(`Publisher '${id}' added`);
+    reportLog(`Publisher '${id}' added`);
     return Promise.resolve(id);
   } catch (error) {
     reportError(error);
@@ -130,23 +137,23 @@ const startCameraPublisher = async (id, publishAudio, publishVideo) => {
 const stopPublisher = async (id) => {
   if (publishers[id] != null) {
     otSession.unpublish(publishers[id]);
-    console.log(`Publisher '${id}' unpublished`);
+    reportLog(`Publisher '${id}' unpublished`);
     delete publishers[id];
-    console.log(`Publisher '${id}' removed`);
+    reportLog(`Publisher '${id}' removed`);
   }
 };
 
 const enableVideo = (id, enabled) => {
   if (publishers[id] != null) {
     publishers[id].publishVideo(enabled);
-    console.log(`Publisher '${id}' video enabled: ${enabled}`);
+    reportLog(`Publisher '${id}' video enabled: ${enabled}`);
   }
 }
 
 const enableAudio = (id, enabled) => {
   if (publishers[id] != null) {
     publishers[id].publishAudio(enabled);
-    console.log(`Publisher '${id}' audio enabled: ${enabled}`);
+    reportLog(`Publisher '${id}' audio enabled: ${enabled}`);
   }
 }
 
@@ -186,7 +193,7 @@ waitForReady(() => {
   const path = '/socketData';
   socket = io(socketHost, { path });
   socket.on('userAction', (event) => handleUserAction(event));
-  console.log('Socket Created');
+  reportLog('Socket Created');
 
   params = getParameters();
   credentials = getCredentials();
@@ -195,6 +202,6 @@ waitForReady(() => {
   socket.emit('socketData', { tabId });
 
   runSession()
-    .then(() => console.log('done'))
+    .then(() => reportLog('done'))
     .catch(error => reportError(error));
 });

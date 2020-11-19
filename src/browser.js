@@ -22,7 +22,7 @@ const openBrowser = async (tester) => {
     ];
 
     const options = {
-      headless: true,
+      headless: false,
       ignoreDefaultArgs: ['--mute-audio'],
       args,
     };
