@@ -150,7 +150,7 @@ const onSocketError = (tabId, error) => {
 }
 const onSocketLog = (tabId, event) => {
   console.log(`Log in Browser: ${tabId}`);
-  console.log(event.message || "null log message");
+  console.log(`Browser:: ${event.message || "null log message"}`);
 }
 
 
