@@ -100,21 +100,9 @@ const connectSession = () => new Promise((resolve, reject) => {
   });
 });
 
-const startCameraPublisher = async (publishAudio, publishVideo, name) => {
+const startCameraPublisher = async (id, publishAudio, publishVideo) => {
   try {
-    let sanitizedName = name;
-    if (publishers[name] != null) {
-      console.log(`Publisher with name '${name}' already existed`);
-      let count = 1;
-      while (publisher[`${name}${count}`] != null) {
-        count += 1;
-      }
-
-      sanitizedName = `${name}${count}`;
-      console.log(`Using generated name: ${sanitizedName}`);
-    }
-
-    const publisher = OT.initPublisher('container', { publishAudio, publishVideo, name: sanitizedName }, (error) => {
+    const publisher = OT.initPublisher('container', { publishAudio, publishVideo, name: id }, (error) => {
       if (error) {
         console.error(error);
         return;
@@ -126,58 +114,58 @@ const startCameraPublisher = async (publishAudio, publishVideo, name) => {
           return;
         }
 
-        console.log(`Publisher '${sanitizedName}' published`);
+        console.log(`Publisher '${id}' published`);
       });
     });
 
-    publishers[sanitizedName] = publisher;
-    console.log(`Publisher '${sanitizedName}' added`);
-    return Promise.resolve(sanitizedName);
+    publishers[id] = publisher;
+    console.log(`Publisher '${id}' added`);
+    return Promise.resolve(id);
   } catch (error) {
     reportError(error);
     return Promise.reject(error);
   }
 };
 
-const stopPublisher = async (name) => {
-  if (publishers[name] != null) {
-    otSession.unpublish(publishers[name]);
-    console.log(`Publisher '${name}' unpublished`);
-    delete publishers[name];
-    console.log(`Publisher '${name}' removed`);
+const stopPublisher = async (id) => {
+  if (publishers[id] != null) {
+    otSession.unpublish(publishers[id]);
+    console.log(`Publisher '${id}' unpublished`);
+    delete publishers[id];
+    console.log(`Publisher '${id}' removed`);
   }
 };
 
-const enableVideo = (name, enabled) => {
-  if (publishers[name] != null) {
-    publishers[name].publishVideo(enabled);
-    console.log(`Publisher '${name}' video enabled: ${enabled}`);
+const enableVideo = (id, enabled) => {
+  if (publishers[id] != null) {
+    publishers[id].publishVideo(enabled);
+    console.log(`Publisher '${id}' video enabled: ${enabled}`);
   }
 }
 
-const enableAudio = (name, enabled) => {
-  if (publishers[name] != null) {
-    publishers[name].publishAudio(enabled);
-    console.log(`Publisher '${name}' audio enabled: ${enabled}`);
+const enableAudio = (id, enabled) => {
+  if (publishers[id] != null) {
+    publishers[id].publishAudio(enabled);
+    console.log(`Publisher '${id}' audio enabled: ${enabled}`);
   }
 }
 
 const handleUserAction = (userAction) => {
-  const { action, name, audio, video } = userAction;
+  const { action, id, audio, video } = userAction;
 
   if (action === 'start_publisher') {
     const publishAudio = audio == null ? true : audio;
     const publishVideo = video == null ? true : video;
-    startCameraPublisher(publishAudio, publishVideo, name);
+    startCameraPublisher(id, publishAudio, publishVideo);
   } else if (action === 'stop_publisher') {
-    stopPublisher(name);
+    stopPublisher(id);
   } else if (action === 'stream_control') {
     if (audio != null) {
-      enableAudio(name, audio);
+      enableAudio(id, audio);
     }
 
     if (video != null) {
-      enableVideo(name, video);
+      enableVideo(id, video);
     }
   }
 }

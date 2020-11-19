@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const fs = require('fs');
 const path = require('path');
 const SocketIO = require('socket.io');
+const uuid = require('uuid').v4;
 
 const testerService = require('./tester');
 
@@ -71,15 +72,64 @@ app.delete('/testers/:testerId/tabs/:tabId', async (req, res) => {
   }
 });
 
-app.put('/testers/:testerId/tabs/:tabId', async (req, res) => {
+app.post('/testers/:testerId/tabs/:tabId/publishers', async (req, res) => {
   try {
     const { testerId, tabId } = req.params;
     if (sockets[tabId] == null) {
       throw new Error('Tab Socket does not exist');
     }
 
+    const { video, audio } = req.body;
+    const publisherId = uuid();
+
     const socket = sockets[tabId];
-    socket.emit('userAction', req.body);
+    socket.emit('userAction', {
+      action: 'start_publisher',
+      id: publisherId,
+      video,
+      audio,
+    });
+    res.json({ testerId, tabId, publisherId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
+});
+
+app.delete('/testers/:testerId/tabs/:tabId/publishers/:publisherId', async (req, res) => {
+  try {
+    const { tabId, publisherId } = req.params;
+    if (sockets[tabId] == null) {
+      throw new Error('Tab Socket does not exist');
+    }
+
+    const socket = sockets[tabId];
+    socket.emit('userAction', {
+      action: 'stop_publisher',
+      id: publisherId,
+    });
+    res.send('ok');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
+});
+
+app.put('/testers/:testerId/tabs/:tabId/publishers/:publisherId', async (req, res) => {
+  try {
+    const { tabId, publisherId } = req.params;
+    if (sockets[tabId] == null) {
+      throw new Error('Tab Socket does not exist');
+    }
+
+    const { video, audio } = req.body;
+    const socket = sockets[tabId];
+    socket.emit('userAction', {
+      action: 'stream_control',
+      id: publisherId,
+      video,
+      audio,
+    });
     res.send('ok');
   } catch (error) {
     console.error(error);
