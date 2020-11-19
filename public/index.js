@@ -1,6 +1,7 @@
 let socket;
 let params;
 let credentials;
+let tabId;
 
 let otSession;
 
@@ -9,6 +10,17 @@ const publishers = {};
 const waitForReady = (callback) => {
   /in/.test(document.readyState) ? setTimeout('waitForReady('+callback+')', 9) : callback()
 };
+
+const reportError = (error) => {
+  console.error(error);
+  if (socket != null) {
+    socket.emit('socketError', {
+      code: error.code,
+      message: error.message,
+      response: error.response,
+    });
+  }
+}
 
 const getParameters = () => {
   const searchString = window.location.search || '?';
@@ -122,6 +134,7 @@ const startCameraPublisher = async (publishAudio, publishVideo, name) => {
     console.log(`Publisher '${sanitizedName}' added`);
     return Promise.resolve(sanitizedName);
   } catch (error) {
+    reportError(error);
     return Promise.reject(error);
   }
 };
@@ -149,11 +162,32 @@ const enableAudio = (name, enabled) => {
   }
 }
 
+const handleUserAction = (userAction) => {
+  const { action, name, audio, video } = userAction;
+
+  if (action === 'start_publisher') {
+    const publishAudio = audio == null ? true : audio;
+    const publishVideo = video == null ? true : video;
+    startCameraPublisher(publishAudio, publishVideo, name);
+  } else if (action === 'stop_publisher') {
+    stopPublisher(name);
+  } else if (action === 'stream_control') {
+    if (audio != null) {
+      enableAudio(name, audio);
+    }
+
+    if (video != null) {
+      enableVideo(name, video);
+    }
+  }
+}
+
 const runSession = async () => {
   try {
     initializeSession();
     await connectSession();
   } catch (error) {
+    reportError(error);
     return Promise.reject(error);
   }
 }
@@ -163,13 +197,16 @@ waitForReady(() => {
   const socketHost = window.location.origin;
   const path = '/socketData';
   socket = io(socketHost, { path });
+  socket.on('userAction', (event) => handleUserAction(event));
   console.log('Socket Created');
 
   params = getParameters();
   credentials = getCredentials();
-  console.log(credentials);
+  tabId = params.tabId;
+
+  socket.emit('socketData', { tabId });
 
   runSession()
     .then(() => console.log('done'))
-    .catch(error => console.error(error));
+    .catch(error => reportError(error));
 });
