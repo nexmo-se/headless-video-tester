@@ -7,19 +7,19 @@ Simple Opentok Remote Tester
 2. run `nvm list-remote` to view all available versions
 3. run `nvm install VERSION` (replace `VERSION` with the version you want, ideally latest LTS)
 
-# Browser (Option 1 - Chromium)
+#### Browser (Option 1 - Chromium)
 1. run `sudo apt install chromium-browser`
 2. run `which chromium` to get the path to the executable
 3. use this path in the env
 
-# Browser (Option 2 - Google Chrome)
+#### Browser (Option 2 - Google Chrome)
 1. run `sudo apt install gdebi-core wget`
 2. run `wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
 3. run `sudo gdebi google-chrome-stable_current_amd64.deb`
 4. run `which google-chrome` to get the path to the executable
 5. use this path in the env
 
-### Install (Local)
+### Setup and Install
 1. clone this repo
 2. run `npm install`
 3. setup `.env` according to `.env.example`
