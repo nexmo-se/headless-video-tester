@@ -32,7 +32,7 @@ const openBrowser = async (tester, videoFile = sampleVideoFile, audioFile = samp
     ];
 
     const options = {
-      headless: false,
+      headless: true,
       ignoreDefaultArgs: ['--mute-audio'],
       args,
     };
