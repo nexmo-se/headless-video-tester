@@ -4,14 +4,14 @@ const browserService = require('./browser');
 
 const testers = {};
 
-const createTester = async (videoPath, audioPath) => {
+const createTester = async (videoFile, audioFile) => {
   try {
     const testerId = uuid();
     const tester = { id: testerId };
     
     console.log(`${testerId} - Creating Tester`);
 
-    await browserService.openBrowser(tester, videoPath, audioPath);
+    await browserService.openBrowser(tester, videoFile, audioFile);
     testers[testerId] = tester;
 
     console.log(`${testerId} - Tester Created`);

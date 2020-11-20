@@ -4,9 +4,17 @@ const puppeteer = require('puppeteer');
 const port = process.env.PORT || 8080;
 const sampleVideoPath = process.env.VIDEO_FILE_PATH;
 const sampleAudioPath = process.env.AUDIO_FILE_PATH;
+const sampleVideoFile = process.env.VIDEO_FILE;
+const sampleAudioFile = process.env.AUDIO_FILE;
 
-const openBrowser = async (tester, videoPath = sampleVideoPath, audioPath = sampleAudioPath) => {
+const openBrowser = async (tester, videoFile = sampleVideoFile, audioFile = sampleAudioFile) => {
   try {
+    const videoPath = `${sampleVideoPath}/${videoFile}.y4m`;
+    const audioPath = `${sampleAudioPath}/${audioFile}.y4m`;
+
+    console.log(`Browser Video: ${videoPath}`);
+    console.log(`Browser Audio: ${audioPath}`);
+
     const args = [
       '--no-sandbox',
       '--disable-setuid-sandbox',

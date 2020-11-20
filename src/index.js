@@ -30,8 +30,8 @@ app.use('/', express.static('public'));
 
 app.post('/testers', async (req, res) => {
   try {
-    const { videoPath, audioPath } = req.body;
-    const testerId = await testerService.createTester(videoPath, audioPath);
+    const { videoFile = 'sample', audioFile = 'sample'} = req.body;
+    const testerId = await testerService.createTester(videoFile, audioFile);
     res.json({ testerId });
   } catch (error) {
     console.error(error);
