@@ -13,7 +13,7 @@ const wait = (duration) => new Promise(resolve => setTimeout(resolve, duration))
 const openBrowser = async (tester, videoFile = sampleVideoFile, audioFile = sampleAudioFile) => {
   try {
     const videoPath = `${sampleVideoPath}/${videoFile}.y4m`;
-    const audioPath = `${sampleAudioPath}/${audioFile}.y4m`;
+    const audioPath = `${sampleAudioPath}/${audioFile}.wav`;
 
     console.log(`Browser Video: ${videoPath}`);
     console.log(`Browser Audio: ${audioPath}`);
