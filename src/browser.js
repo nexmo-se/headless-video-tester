@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer');
 
 const port = process.env.PORT || 8080;
 const sampleVideoPath = process.env.VIDEO_FILE_PATH;
+const sampleAudioPath = process.env.AUDIO_FILE_PATH;
 
 const openBrowser = async (tester) => {
   try {
@@ -18,6 +19,7 @@ const openBrowser = async (tester) => {
       '--use-fake-device-for-media-stream',
       '--use-fake-ui-for-media-stream',
       `--use-file-for-fake-video-capture=${sampleVideoPath}`,
+      `--use-file-for-fake-audio-capture=${sampleAudioPath}`,
       '--autoplay-policy=no-user-gesture-required',
     ];
 
