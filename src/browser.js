@@ -6,6 +6,9 @@ const sampleVideoPath = process.env.VIDEO_FILE_PATH;
 const sampleAudioPath = process.env.AUDIO_FILE_PATH;
 const sampleVideoFile = process.env.VIDEO_FILE;
 const sampleAudioFile = process.env.AUDIO_FILE;
+const waitDuration = parseInt(process.env.WAIT_DURATION || '2000', 10);
+
+const wait = (duration) => new Promise(resolve => setTimeout(resolve, duration));
 
 const openBrowser = async (tester, videoFile = sampleVideoFile, audioFile = sampleAudioFile) => {
   try {
@@ -92,6 +95,9 @@ const openTab = async (tester, token) => {
     const url = `http://localhost:${port}?tabId=${tabId}&token=${token}`;
     await tab.goto(url);
     console.log(`Tab Page Opened`);
+
+    // Wait for Stabilize
+    await wait(waitDuration);
 
     // Add Tab to Tester
     tester.tabs[tabId] = tab;
