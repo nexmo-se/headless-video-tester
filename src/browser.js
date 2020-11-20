@@ -5,7 +5,7 @@ const port = process.env.PORT || 8080;
 const sampleVideoPath = process.env.VIDEO_FILE_PATH;
 const sampleAudioPath = process.env.AUDIO_FILE_PATH;
 
-const openBrowser = async (tester) => {
+const openBrowser = async (tester, videoPath = sampleVideoPath, audioPath = sampleAudioPath) => {
   try {
     const args = [
       '--no-sandbox',
@@ -18,8 +18,8 @@ const openBrowser = async (tester) => {
       '--allow-file-access-from-files',
       '--use-fake-device-for-media-stream',
       '--use-fake-ui-for-media-stream',
-      `--use-file-for-fake-video-capture=${sampleVideoPath}`,
-      `--use-file-for-fake-audio-capture=${sampleAudioPath}`,
+      `--use-file-for-fake-video-capture=${videoPath}`,
+      `--use-file-for-fake-audio-capture=${audioPath}`,
       '--autoplay-policy=no-user-gesture-required',
     ];
 
