@@ -1,8 +1,8 @@
 # Simple Opentok Remote Tester
 Simple Opentok Remote Tester
 
-### Prerequisite (Ubuntu 20.04)
-# NPM and Node (via NVM)
+# Prerequisite (Ubuntu 20.04)
+#### NPM and Node (via NVM)
 1. run `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash`
 2. run `nvm list-remote` to view all available versions
 3. run `nvm install VERSION` (replace `VERSION` with the version you want, ideally latest LTS)
@@ -19,7 +19,7 @@ Simple Opentok Remote Tester
 4. run `which google-chrome` to get the path to the executable
 5. use this path in the env
 
-### Setup and Install
+# Setup and Install
 1. clone this repo
 2. run `npm install`
 3. setup `.env` according to `.env.example`
