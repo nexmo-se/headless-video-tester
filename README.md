@@ -39,8 +39,12 @@ Each tab may start multiple publishers (currently on camera, using the video/aud
 
 Screenshare and custom content are not supported in this version.
 
+# Using the application (Script)
+Edit the `src/trigger.js` run script at the bottom to adjust for the test you need.
 
-# Using the application
+Run `npm run trigger` to start running the script.
+
+# Using the application (API)
 
 ## Tester (Browser)
 
