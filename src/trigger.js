@@ -31,7 +31,6 @@ const startBrowser = async (key) => {
 
 const stopBrowser = async (key) => {
   try {
-    await stopPublisher(key);
     await stopTab(key);
 
     if (browsers[key] == null) {
@@ -175,16 +174,22 @@ Promise.resolve()
   .then(() => startPublisher('2'))
   .then(() => startPublisher('3'))
   .then(() => startPublisher('4'))
+  .then(() => startPublisher('5'))
+  .then(() => startPublisher('6'))
+  .then(() => startPublisher('7'))
+  .then(() => startPublisher('8'))
+  .then(() => startPublisher('9'))
+  .then(() => startPublisher('10'))
   .then(() => controlPublisher('3', { audio: true, video: false }))
-  .then(() => wait(5000))
+  .then(() => wait(1000))
   .then(() => controlPublisher('4', { audio: false, video: true }))
-  .then(() => wait(5000))
+  .then(() => wait(2000))
   .then(() => controlPublisher('4', { audio: true, video: false }))
-  .then(() => wait(10000))
+  .then(() => wait(1000))
   .then(() => controlPublisher('3', { audio: false, video: true }))
-  .then(() => wait(10000))
+  .then(() => wait(1000))
   .then(() => controlPublisher('1', { audio: false, video: false }))
-  .then(() => wait(20000))
+  .then(() => wait(2000))
   .then(() => controlPublisher('2', { audio: false, video: false }))
 
 

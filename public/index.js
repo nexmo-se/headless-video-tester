@@ -109,7 +109,11 @@ const connectSession = () => new Promise((resolve, reject) => {
 
 const startCameraPublisher = async (id, publishAudio, publishVideo) => {
   try {
-    const publisher = OT.initPublisher('container', { publishAudio, publishVideo, name: id }, (error) => {
+    const publisher = OT.initPublisher('container', {
+      publishAudio, publishVideo, name: id,
+      resolution: '320x240',
+      frameRate: 15,
+    }, (error) => {
       if (error) {
         reportLog(error);
         return;
