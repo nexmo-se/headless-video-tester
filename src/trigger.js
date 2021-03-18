@@ -15,8 +15,8 @@ const startBrowser = async (key) => {
       console.log(`Starting Browser ${key}`);
       const url = `${HOST}/testers`;
       const body = {
-        videoFile: `${key}`,
-        audioFile: `${key}`,
+        videoFile: `${parseInt(key || '0', 10) % 10}`,
+        audioFile: `${parseInt(key || '0', 10) % 10}`,
       };
 
       const response = await axios.post(url, body);
@@ -170,27 +170,17 @@ const closeAllBrowsers = async () => {
 
 Promise.resolve()
   // List of Actions
-  .then(() => startPublisher('1'))
-  .then(() => startPublisher('2'))
-  .then(() => startPublisher('3'))
-  .then(() => startPublisher('4'))
-  .then(() => startPublisher('5'))
-  .then(() => startPublisher('6'))
-  .then(() => startPublisher('7'))
-  .then(() => startPublisher('8'))
-  .then(() => startPublisher('9'))
-  .then(() => startPublisher('10'))
-  .then(() => controlPublisher('3', { audio: true, video: false }))
-  .then(() => wait(1000))
-  .then(() => controlPublisher('4', { audio: false, video: true }))
-  .then(() => wait(2000))
-  .then(() => controlPublisher('4', { audio: true, video: false }))
-  .then(() => wait(1000))
-  .then(() => controlPublisher('3', { audio: false, video: true }))
-  .then(() => wait(1000))
-  .then(() => controlPublisher('1', { audio: false, video: false }))
-  .then(() => wait(2000))
-  .then(() => controlPublisher('2', { audio: false, video: false }))
+  .then(() => startPublisher('1', false, true))
+  .then(() => startPublisher('2', false, true))
+  .then(() => startPublisher('3', false, true))
+  .then(() => startPublisher('4', false, true))
+  .then(() => startPublisher('5', false, true))
+  .then(() => startPublisher('6', false, true))
+  .then(() => startPublisher('7', false, true))
+  .then(() => startPublisher('8', false, true))
+  .then(() => startPublisher('9', false, true))
+  .then(() => startPublisher('10', false, true))
+  .then(() => wait(60000))
 
 
   // All Done or Caught

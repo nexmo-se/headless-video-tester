@@ -111,8 +111,8 @@ const startCameraPublisher = async (id, publishAudio, publishVideo) => {
   try {
     const publisher = OT.initPublisher('container', {
       publishAudio, publishVideo, name: id,
-      resolution: '320x240',
-      frameRate: 15,
+      // resolution: '320x240',
+      // frameRate: 15,
     }, (error) => {
       if (error) {
         reportLog(error);

@@ -55,6 +55,14 @@ URL: `/testers`
 
 Method: `POST`
 
+Body:
+```
+{
+  videoFile: STRING // video file name without extension,
+  audioFile: STRING // audio file name without extension,
+}
+```
+
 *Response*
 
 ```
