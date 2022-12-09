@@ -9,16 +9,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^1.2.1",
     "body-parser": "^1.18.3",
+    "bufferutil": "^4.0.7",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
+    "encoding": "^0.1.13",
     "express": "^4.16.4",
-    "helmet": "^3.15.1",
+    "helmet": "^3.23.3",
+    "node-gyp-build": "^4.5.0",
     "path": "^0.12.7",
     "puppeteer": "^3.0.4",
-    "socket.io": "^2.3.0",
-    "uuid": "^8.1.0"
+    "socket.io": "^2.5.0",
+    "utf-8-validate": "^5.0.10",
+    "uuid": "^8.3.2",
+    "ws": "^8.11.0"
   },
   "author": "Yee Hui Poh <yee.poh@vonage.com>",
   "license": "ISC"
